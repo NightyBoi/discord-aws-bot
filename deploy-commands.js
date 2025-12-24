@@ -8,6 +8,49 @@ const commands = [
     .setDescription("Replies with Pong!")
     .toJSON(),
   new SlashCommandBuilder()
+    .setName("inv")
+    .setDescription("Manage personal inventory")
+    .addSubcommand((sub) =>
+      sub
+        .setName("add")
+        .setDescription("Add an existing item to your inventory")
+        .addStringOption((opt) =>
+          opt
+            .setName("name")
+            .setDescription("Exact item name (must exist in this server)")
+            .setRequired(true)
+        )
+        .addIntegerOption((opt) =>
+          opt.setName("qty").setDescription("Quantity to add").setMinValue(1)
+        )
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName("delete")
+        .setDescription("Remove an item from your inventory")
+        .addStringOption((opt) =>
+          opt
+            .setName("name")
+            .setDescription("Exact item name (must exist in this server)")
+            .setRequired(true)
+        )
+        .addIntegerOption((opt) =>
+          opt.setName("qty").setDescription("Quantity to remove").setMinValue(1)
+        )
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName("list")
+        .setDescription("View user's inventory (defaults to yours)")
+        .addUserOption((opt) =>
+          opt
+            .setName("user")
+            .setDescription("User to view (optional)")
+            .setRequired(false)
+        )
+    )
+    .toJSON(),
+  new SlashCommandBuilder()
     .setName("item")
     .setDescription("Manage lootlist items")
     .addSubcommand((sub) =>

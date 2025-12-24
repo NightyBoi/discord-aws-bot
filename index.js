@@ -2,15 +2,13 @@ import dotenv from "dotenv";
 import { handleItemAdd } from "./commands/item/add.js";
 import { handleItemSearch } from "./commands/item/search.js";
 import { handleItemDelete } from "./commands/item/delete.js";
+
+import { handleInventoryAdd } from "./commands/inventory/add.js";
+import { handleInventoryList } from "./commands/inventory/list.js";
+import { handleInventoryDelete } from "./commands/inventory/delete.js";
 dotenv.config();
 
-import {
-  ButtonBuilder,
-  ButtonStyle,
-  Client,
-  GatewayIntentBits,
-  Events,
-} from "discord.js";
+import { Client, GatewayIntentBits, Events } from "discord.js";
 import { handleItemList } from "./commands/item/list.js";
 import { handleItemsBulkAdd } from "./commands/item/bulkAdd.js";
 
@@ -26,21 +24,8 @@ const client = new Client({
 
 client.login(process.env.DISCORD_TOKEN);
 
-const btn = new ButtonBuilder()
-  .setCustomId("testId")
-  .setStyle(ButtonStyle.Danger)
-  .setLabel("Danger test!!!");
-
 client.once(Events.ClientReady, async (readyClient) => {
   console.log(`Logged in as ${readyClient.user?.tag}`);
-});
-
-client.on(Events.MessageCreate, async (message) => {
-  console.log(`${message.author.tag} said ${message.content}`);
-
-  if (!message?.author.bot) {
-    message.channel.send(`Echo ${message.content}`);
-  }
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -67,22 +52,24 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (sub === "add") {
       return handleItemAdd(interaction);
-    }
-
-    if (sub === "bulkadd") {
+    } else if (sub === "bulkadd") {
       return handleItemsBulkAdd(interaction);
-    }
-
-    if (sub === "search") {
+    } else if (sub === "search") {
       return handleItemSearch(interaction);
-    }
-
-    if (sub === "delete") {
+    } else if (sub === "delete") {
       return handleItemDelete(interaction);
-    }
-
-    if (sub === "list") {
+    } else if (sub === "list") {
       return handleItemList(interaction);
+    }
+  } else if (interaction.commandName === "inv") {
+    const sub = interaction.options.getSubcommand();
+
+    if (sub === "add") {
+      return handleInventoryAdd(interaction);
+    } else if (sub === "delete") {
+      return handleInventoryDelete(interaction);
+    } else if (sub === "list") {
+      return handleInventoryList(interaction);
     }
   }
 });
