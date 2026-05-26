@@ -1,8 +1,5 @@
-import dotenv from "dotenv";
 import csv from "csv-parser";
 import { Readable } from "stream";
-
-dotenv.config();
 
 export async function handleItemsBulkAdd(interaction) {
   if (!interaction.guildId) {
@@ -50,7 +47,7 @@ export async function handleItemsBulkAdd(interaction) {
       return interaction.editReply("No valid rows found in CSV.");
     }
 
-    const res2 = await fetch(`${process.env.API_ENDPOINT}/items/bulkadd`, {
+    const apiRes = await fetch(`${process.env.API_ENDPOINT}/items/bulkadd`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.LOOTLIST_SECRET}`,
@@ -62,9 +59,9 @@ export async function handleItemsBulkAdd(interaction) {
       }),
     });
 
-    const data = await res2.json();
+    const data = await apiRes.json();
 
-    if (!res2.ok) {
+    if (!apiRes.ok) {
       return interaction.editReply(
         `Error: ${data.error || "Failed to process items"}`
       );
