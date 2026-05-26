@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 export async function handleInventoryAdd(interaction) {
   if (!interaction.guildId) {
     return interaction.reply({
@@ -13,9 +10,8 @@ export async function handleInventoryAdd(interaction) {
 
   const serverId = interaction.guildId;
   const userId = interaction.user.id;
-
   const name = interaction.options.getString("name");
-  const qty = interaction.options.getInteger("qty") || 1;
+  const qty = interaction.options.getInteger("qty") ?? 1;
 
   try {
     const res = await fetch(`${process.env.API_ENDPOINT}/inv/add`, {
@@ -24,12 +20,7 @@ export async function handleInventoryAdd(interaction) {
         Authorization: `Bearer ${process.env.LOOTLIST_SECRET}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        serverId,
-        userId,
-        name,
-        qty,
-      }),
+      body: JSON.stringify({ serverId, userId, name, qty }),
     });
 
     const data = await res.json();
@@ -41,9 +32,7 @@ export async function handleInventoryAdd(interaction) {
     }
 
     return interaction.editReply(
-      `Added **${data.qtyAdded || qty}** x **${
-        data.itemName || name
-      }** to your inventory!`
+      `Added **${data.qtyAdded ?? qty}** x **${data.itemName ?? name}** to your inventory!`
     );
   } catch (err) {
     console.error(err);

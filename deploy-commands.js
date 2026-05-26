@@ -153,7 +153,7 @@ const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
-    console.log("Refreshing clash commands...");
+    console.log("Refreshing slash commands...");
 
     await rest.put(
       Routes.applicationGuildCommands(

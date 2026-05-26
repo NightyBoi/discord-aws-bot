@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 export async function handleItemAdd(interaction) {
   if (!interaction.guildId) {
     return interaction.reply({
@@ -20,8 +17,7 @@ export async function handleItemAdd(interaction) {
     interaction.options.getString("attunement")?.toLowerCase() === "yes"
       ? "Yes"
       : "No";
-  const marketPrice = interaction.options.getInteger("price") || 0;
-
+  const marketPrice = interaction.options.getInteger("price") ?? 0;
   const serverId = interaction.guildId;
 
   try {

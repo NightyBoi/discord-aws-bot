@@ -1,16 +1,16 @@
 {
-  "name": "discord-bot",
+  "name": "lootlist-bot",
   "version": "1.0.0",
+  "description": "Discord bot for managing D&D loot tables and player inventories, backed by AWS Lambda and DynamoDB",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "node deploy-commands.js"
   },
-  "keywords": [],
-  "author": "",
+  "author": "NightyBoi",
   "license": "ISC",
-  "description": "",
+  "keywords": ["discord", "bot", "dnd", "lootlist", "inventory", "aws", "lambda"],
   "dependencies": {
     "csv-parser": "^3.2.0",
     "discord.js": "^14.24.0",
